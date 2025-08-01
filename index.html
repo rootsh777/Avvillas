@@ -1,16 +1,86 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AV Villas - Crédito Vehículo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="https://www.avvillas.com.co/o/avvillas-theme/images/favicon.ico" />
 </head>
+<body class="bg-gray-50 text-gray-800 font-sans">
 
-<body>
-  Hello world
-  <script src="script.js"></script>
+  <!-- Navbar -->
+  <nav class="bg-white-700 p-4 shadow-md">
+    <div class="container mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <img src="https://www.avvillas.com.co/image/layout_set_logo?img_id=47480894&t=1754067658524" alt="AV Villas" class="h-8">
+
+      </div>
+      <div>
+        <a href="/inicio.html" class="text-red font-medium hover:underline">Iniciar sesión</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-white py-16">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl font-bold text-red-600 mb-4">30% menos en tu crédito de vehículo</h1>
+      <p class="text-lg text-gray-600 mb-6">Solo para clientes AV Villas con cuentas activas. Financia el carro de tus sueños con tasas preferenciales.</p>
+      <div class="flex justify-center space-x-4">
+        <a href="/inicio.html" class="bg-red-700 hover:bg-red-800 text-white font-semibold px-6 py-3 rounded-md transition">Solicita tu credito</a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Autos destacados -->
+  <section class="bg-gray-100 py-12">
+    <div class="container mx-auto px-6">
+      <h2 class="text-2xl font-bold text-center text-red-700 mb-8">Ejemplos de vehículos disponibles</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <img src="https://http2.mlstatic.com/D_NQ_NP_984316-MCO82791266429_022025-O.jpg" class="w-full h-48 object-cover" alt="BMW M3">
+          <div class="p-4">
+            <h3 class="font-semibold text-lg">BMW M3 2024</h3>
+            <p class="text-gray-600">Desde $310.000.000 COP</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <img src="https://acnews.blob.core.windows.net/imgnews/large/NAZ_522f6d68af3746ab9ed59d333999af12.webp" class="w-full h-48 object-contain bg-white" alt="Mazda CX-90">
+          <div class="p-4">
+            <h3 class="font-semibold text-lg">Mazda CX-90 Signature</h3>
+            <p class="text-gray-600">Desde $270.000.000 COP</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <img src="https://cdn.prod.website-files.com/5ec85520c4dfff034b036be2/66ba75ffb82e0c86104f161a_audi-q4-etron-road-test_main.webp" class="w-full h-48 object-cover" alt="Audi Q5">
+          <div class="p-4">
+            <h3 class="font-semibold text-lg">Audi Q5 2024</h3>
+            <p class="text-gray-600">Desde $290.000.000 COP</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video promocional -->
+  <section class="bg-white py-16">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold text-red-700 mb-4">Descubre cómo acceder a tu crédito</h2>
+      <p class="mb-6 text-gray-600">Mira cómo nuestros clientes hacen realidad sus sueños con AV Villas.</p>
+      <div class="aspect-w-16 aspect-h-9 max-w-4xl mx-auto shadow-lg rounded-lg overflow-hidden">
+        <iframe class="w-full h-full" src="https://www.youtube.com/embed/UEvQcBl7Lrc" title="Video promocional AV Villas" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-red-700 text-white text-sm py-6">
+    <div class="container mx-auto px-6 text-center">
+      © 2025 Banco AV Villas - Oferta exclusiva para clientes. Todos los derechos reservados.
+    </div>
+  </footer>
+
 </body>
-
 </html>

